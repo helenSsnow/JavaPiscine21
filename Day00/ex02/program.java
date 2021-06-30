@@ -38,7 +38,9 @@ public class Program {
         Scanner scan = new Scanner(System.in);
         int sum_coffees = 0;
         while(scan.hasNext()){
-            int num = scan.nextInt();
+            int num = -1;
+            if(scan.hasNextInt())
+                num = scan.nextInt();
             if(num == 42)
                 break ;
             num = count_sum(num);
@@ -50,5 +52,6 @@ public class Program {
             System.out.println("Count of coffee-request - " + sum_coffees);
         else
             System.out.println("Count of coffee-request - 0");
+        scan.close();
     }
 }

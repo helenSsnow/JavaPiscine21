@@ -1,10 +1,10 @@
 import java.util.UUID;
 
-public class Program{
+public class Program {
     public static void main(String[] args) {
-        User alex = new User(890, "Boris", 1200);
-        User maria = new User(111, "Maks", 1000);
-        Transaction session = new Transaction(UUID.randomUUID(), alex, maria, "credit", -800);
+        User alex = new User(1, "Boris", 1200);
+        User maria = new User(2, "Maks", 4000);
+        Transaction session = new Transaction(alex, maria, "credit", -800);
 
         System.out.println("\u001B[32m" + "**** PRINT DEFAULT USERS ****" + "\u001B[0m");
         System.out.println(alex.getName());
@@ -24,11 +24,11 @@ public class Program{
         System.out.println("\u001B[32m" + "**** PRINT USERS AFTER SET ****" + "\u001B[0m");
         alex.setName("Alex");
         maria.setName("Maria");
-        alex.setId(123);
-        maria.setId(456);
+        alex.setId(3);
+        maria.setId(4);
         alex.setBalance(12000);
         maria.setBalance(4000);
-        
+
         System.out.println(alex.getName());
         System.out.println(maria.getName());
         System.out.println(alex.getId());

@@ -8,29 +8,42 @@ public class Transaction {
     private String transaction;
     private int sum;
 
-    Transaction(User _receiver, User _sender, String transaction, int sum) {
+    Transaction(User _receiver, User _sender, String transaction, int sum) throws TransactionNotFoundException, InccorectAmountException {
+
         this.id = UUID.randomUUID();
+
         if (transaction.equals("debit") || transaction.equals("credit")) {
             this.transaction = transaction;
         } else {
-            System.err.println("\u001B[31m" + "Incorrect Transaction" + "\u001B[0m");
+            throw new TransactionNotFoundException("\u001B[31m" + "Incorrect transaction (" + transaction + " " + sum + ")\u001B[0m");
         }
+
         receiver = _receiver;
         sender = _sender;
+
         if ((transaction.equals("debit")) && (sum > 0)) {
             this.sum = sum;
         } else if ((transaction.equals("credit")) && (sum < 0)) {
-            if (sender.getBalance() - sum >= 0) {
-                this.sum = sum;
-            }
+            this.sum = sum;
         } else {
-            System.err.println("\u001B[31m" + "Incorrect Sum" + "\u001B[0m");
+            throw new InccorectAmountException("\u001B[31m" + "Incorrect Amount (" + transaction + " " + sum + ")\u001B[0m");
+        }
+
+        if ((sum > 0 && (sender.getBalance() - sum) >= 0) || (sum < 0 && (receiver.getBalance() + sum) >= 0)) {
+            receiver.setBalance(receiver.getBalance() + sum);
+            sender.setBalance(sender.getBalance() - sum);
+            receiver.getListTransactions().addTransaction(this);
+            sender.getListTransactions().addTransaction(this);
+        } else {
+            throw new TransactionNotFoundException("\u001B[31m" + "Incorrect transaction (" + transaction + " " + sum + ")\u001B[0m");
         }
     }
+
 
     public int getSum() {
         return sum;
     }
+
 
     public User getReceiver() {
         return receiver;
@@ -48,7 +61,7 @@ public class Transaction {
         return transaction;
     }
 
-    public void setSum(int sum) {
+    public void setSum(int sum) throws InccorectAmountException {
         if ((transaction.equals("debit")) && (sum > 0)) {
             this.sum = sum;
         } else if ((transaction.equals("credit")) && (sum < 0)) {
@@ -56,7 +69,7 @@ public class Transaction {
                 this.sum = sum;
             }
         } else {
-            System.out.println("\u001B[31m" + "Incorrect Sum" + "\u001B[0m");
+            throw new InccorectAmountException("\u001B[31m" + "Incorrect Amount (" + transaction + " " + sum + ")\u001B[0m");
         }
     }
 
@@ -72,11 +85,11 @@ public class Transaction {
         sender = _sender;
     }
 
-    public void setTransaction(String transaction) {
+    public void setTransaction(String transaction) throws TransactionNotFoundException {
         if (transaction.equals("debit") || transaction.equals("credit")) {
             this.transaction = transaction;
         } else {
-            System.out.println("\u001B[31m" + "Incorrect Transaction" + "\u001B[0m");
+            throw new TransactionNotFoundException("\u001B[31m" + "Incorrect transaction (" + transaction + " " + sum + ")\u001B[0m");
         }
     }
 }

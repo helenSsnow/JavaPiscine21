@@ -1,15 +1,16 @@
-import java.util.UUID;
+
 
 public class User {
-    private int id;
+    final private int id;
     private String name;
     private int balance;
 
-    User(int id, String name, int balance) {
-        this.id = id;
-        if (balance >= 0)
+    User(String name, int balance) {
+        if (balance >= 0) {
             this.balance = balance;
+        }
         this.name = name;
+        this.id = UserIdsGenerator.getInstance().generateId();
     }
 
     int getId() {
@@ -24,10 +25,6 @@ public class User {
         return this.balance;
     }
 
-    public void setId(int id) {
-        this.id = id;
-    }
-
     public void setBalance(int balance) {
         if (balance >= 0)
             this.balance = balance;
@@ -36,6 +33,4 @@ public class User {
     public void setName(String name) {
         this.name = name;
     }
-
-
 }

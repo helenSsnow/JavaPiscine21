@@ -28,7 +28,6 @@ public class Program {
                 min = Aval;
             min = searchMin(Aval, min);
         }
-
         return min;
     }
 
@@ -44,7 +43,9 @@ public class Program {
     static void printReport(long report){
         int i = 1;
         while(report > 0){
-            System.out.print("Week " + i + " ");
+            System.out.print("Week ");
+            System.out.print(i);
+            System.out.print(" ");
             long sumPrint = report % 10;
             report = report / 10;
             while(sumPrint > 0){
@@ -75,7 +76,7 @@ public class Program {
                 weekN = scan.nextInt();
             } else
                 error();
-            if(weekN != tmp || tmp++ > 18) {
+            if(weekN != tmp || tmp++ > weekSum) {
                 error();
             }
             int min = getAvaluation(scan);
